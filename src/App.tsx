@@ -21,6 +21,7 @@ import Checkout from "./pages/Checkout";
 import Profile from "./pages/Profile";
 import Notifications from "./components/Notifications";
 import { AuthProvider, RequireRole } from "./hooks/useAuth";
+import SetupMerchant from "./pages/SetupMerchant";
 
 const queryClient = new QueryClient();
 
@@ -48,6 +49,7 @@ const App = () => (
             <Route path="/chat/:id" element={<Chat />} />
             <Route path="/dashboard/merchant" element={<RequireRole allow={["merchant","admin"]} fallback={<NotFound />}><MerchantDashboard /></RequireRole>} />
             <Route path="/dashboard/admin" element={<RequireRole allow={["admin"]} fallback={<NotFound />}><AdminDashboard /></RequireRole>} />
+            <Route path="/__setup/merchant" element={<SetupMerchant />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
