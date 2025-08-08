@@ -13,6 +13,14 @@ import MerchantDashboard from "./pages/MerchantDashboard";
 import AdminDashboard from "./pages/AdminDashboard";
 import Header from "@/components/Header";
 import ScrollToTop from "@/components/ScrollToTop";
+import About from "./pages/About";
+import Auth from "./pages/Auth";
+import Search from "./pages/Search";
+import Cart from "./pages/Cart";
+import Checkout from "./pages/Checkout";
+import Profile from "./pages/Profile";
+import Notifications from "./components/Notifications";
+import { AuthProvider, RequireRole } from "./hooks/useAuth";
 
 const queryClient = new QueryClient();
 
@@ -21,21 +29,30 @@ const App = () => (
     <TooltipProvider>
       <Toaster />
       <Sonner />
-      <BrowserRouter>
-        <ScrollToTop />
-        <Header />
-        <Routes>
-          <Route path="/" element={<Index />} />
-          <Route path="/direktori" element={<Directory />} />
-          <Route path="/merchant/:id" element={<MerchantDetail />} />
-          <Route path="/booking/:id" element={<Booking />} />
-          <Route path="/chat/:id" element={<Chat />} />
-          <Route path="/dashboard/merchant" element={<MerchantDashboard />} />
-          <Route path="/dashboard/admin" element={<AdminDashboard />} />
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </BrowserRouter>
+      <AuthProvider>
+        <BrowserRouter>
+          <Notifications />
+          <ScrollToTop />
+          <Header />
+          <Routes>
+            <Route path="/" element={<Index />} />
+            <Route path="/direktori" element={<Directory />} />
+            <Route path="/tentang" element={<About />} />
+            <Route path="/auth" element={<Auth />} />
+            <Route path="/search" element={<Search />} />
+            <Route path="/cart" element={<RequireRole allow={["user","merchant","admin"]} fallback={<NotFound />}><Cart /></RequireRole>} />
+            <Route path="/checkout" element={<RequireRole allow={["user","merchant","admin"]} fallback={<NotFound />}><Checkout /></RequireRole>} />
+            <Route path="/profile" element={<RequireRole allow={["user","merchant","admin"]} fallback={<NotFound />}><Profile /></RequireRole>} />
+            <Route path="/merchant/:id" element={<MerchantDetail />} />
+            <Route path="/booking/:id" element={<Booking />} />
+            <Route path="/chat/:id" element={<Chat />} />
+            <Route path="/dashboard/merchant" element={<RequireRole allow={["merchant","admin"]} fallback={<NotFound />}><MerchantDashboard /></RequireRole>} />
+            <Route path="/dashboard/admin" element={<RequireRole allow={["admin"]} fallback={<NotFound />}><AdminDashboard /></RequireRole>} />
+            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </BrowserRouter>
+      </AuthProvider>
     </TooltipProvider>
   </QueryClientProvider>
 );
