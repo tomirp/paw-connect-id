@@ -72,6 +72,97 @@ export type Database = {
           },
         ]
       }
+      cart_items: {
+        Row: {
+          cart_id: string
+          id: string
+          price: number
+          product_id: string | null
+          quantity: number
+          service_id: string | null
+        }
+        Insert: {
+          cart_id: string
+          id?: string
+          price?: number
+          product_id?: string | null
+          quantity?: number
+          service_id?: string | null
+        }
+        Update: {
+          cart_id?: string
+          id?: string
+          price?: number
+          product_id?: string | null
+          quantity?: number
+          service_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "cart_items_cart_id_fkey"
+            columns: ["cart_id"]
+            isOneToOne: false
+            referencedRelation: "carts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "cart_items_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "cart_items_service_id_fkey"
+            columns: ["service_id"]
+            isOneToOne: false
+            referencedRelation: "services"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      carts: {
+        Row: {
+          created_at: string | null
+          id: string
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      categories: {
+        Row: {
+          created_at: string | null
+          id: string
+          name: string
+          type: string
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          name: string
+          type: string
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          name?: string
+          type?: string
+        }
+        Relationships: []
+      }
       chat_messages: {
         Row: {
           created_at: string | null
@@ -192,6 +283,165 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      order_items: {
+        Row: {
+          id: string
+          order_id: string
+          price: number
+          product_id: string | null
+          quantity: number
+          service_id: string | null
+        }
+        Insert: {
+          id?: string
+          order_id: string
+          price?: number
+          product_id?: string | null
+          quantity?: number
+          service_id?: string | null
+        }
+        Update: {
+          id?: string
+          order_id?: string
+          price?: number
+          product_id?: string | null
+          quantity?: number
+          service_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "order_items_order_id_fkey"
+            columns: ["order_id"]
+            isOneToOne: false
+            referencedRelation: "orders"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "order_items_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "order_items_service_id_fkey"
+            columns: ["service_id"]
+            isOneToOne: false
+            referencedRelation: "services"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      orders: {
+        Row: {
+          created_at: string | null
+          id: string
+          merchant_id: string | null
+          status: string
+          total_amount: number
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          merchant_id?: string | null
+          status?: string
+          total_amount?: number
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          merchant_id?: string | null
+          status?: string
+          total_amount?: number
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      payments: {
+        Row: {
+          amount: number
+          created_at: string | null
+          id: string
+          order_id: string
+          payment_url: string | null
+          provider: string | null
+          status: string
+        }
+        Insert: {
+          amount?: number
+          created_at?: string | null
+          id?: string
+          order_id: string
+          payment_url?: string | null
+          provider?: string | null
+          status?: string
+        }
+        Update: {
+          amount?: number
+          created_at?: string | null
+          id?: string
+          order_id?: string
+          payment_url?: string | null
+          provider?: string | null
+          status?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "payments_order_id_fkey"
+            columns: ["order_id"]
+            isOneToOne: false
+            referencedRelation: "orders"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      pets: {
+        Row: {
+          avatar_url: string | null
+          birthdate: string | null
+          breed: string | null
+          created_at: string | null
+          gender: string | null
+          id: string
+          name: string
+          notes: string | null
+          owner_id: string
+          species: string
+          updated_at: string | null
+        }
+        Insert: {
+          avatar_url?: string | null
+          birthdate?: string | null
+          breed?: string | null
+          created_at?: string | null
+          gender?: string | null
+          id?: string
+          name: string
+          notes?: string | null
+          owner_id: string
+          species: string
+          updated_at?: string | null
+        }
+        Update: {
+          avatar_url?: string | null
+          birthdate?: string | null
+          breed?: string | null
+          created_at?: string | null
+          gender?: string | null
+          id?: string
+          name?: string
+          notes?: string | null
+          owner_id?: string
+          species?: string
+          updated_at?: string | null
+        }
+        Relationships: []
       }
       products: {
         Row: {
