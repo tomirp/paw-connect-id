@@ -11,6 +11,8 @@ import Booking from "./pages/Booking";
 import Chat from "./pages/Chat";
 import MerchantDashboard from "./pages/MerchantDashboard";
 import AdminDashboard from "./pages/AdminDashboard";
+import Header from "@/components/Header";
+import ScrollToTop from "@/components/ScrollToTop";
 
 const queryClient = new QueryClient();
 
@@ -20,6 +22,8 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
+        <ScrollToTop />
+        <Header />
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/direktori" element={<Directory />} />

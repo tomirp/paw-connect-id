@@ -1,11 +1,13 @@
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import SEO from "@/components/SEO";
 import { merchants } from "@/data/merchants";
 import { Button } from "@/components/ui/button";
 import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carousel";
+import { ArrowLeft } from "lucide-react";
 
 const MerchantDetail = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
   const merchant = merchants.find(m => m.id === id);
 
   if (!merchant) return <main className="container py-8">Merchant tidak ditemukan.</main>;
@@ -21,6 +23,19 @@ const MerchantDetail = () => {
   return (
     <main className="min-h-screen container py-6">
       <SEO title={`${merchant.name} — PetConnect ID`} description={merchant.description} canonical={`https://cb2a613f-b29b-41df-a5c9-4c4264d87d30.lovableproject.com/merchant/${merchant.id}`} jsonLd={jsonLd} />
+
+      <div className="mb-4">
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => navigate(-1)}
+          aria-label="Kembali ke halaman sebelumnya"
+          className="gap-2"
+        >
+          <ArrowLeft className="h-4 w-4" />
+          Kembali
+        </Button>
+      </div>
 
       <h1 className="text-2xl font-semibold mb-4">{merchant.name}</h1>
 

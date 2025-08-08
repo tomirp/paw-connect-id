@@ -21,14 +21,6 @@ const Index = () => {
         description="Cari petshop, grooming, dan klinik hewan terdekat. Booking cepat & chat langsung dalam satu aplikasi."
         canonical="https://cb2a613f-b29b-41df-a5c9-4c4264d87d30.lovableproject.com/"
       />
-      <header className="container py-4 flex items-center justify-between">
-        <a href="/" className="font-semibold text-lg">PetConnect ID</a>
-        <nav className="flex gap-4 text-sm">
-          <a href="/direktori" className="hover:underline">Direktori</a>
-          <a href="/dashboard/merchant" className="hover:underline">Dashboard Merchant</a>
-          <a href="/dashboard/admin" className="hover:underline">Admin</a>
-        </nav>
-      </header>
 
       <section className="container grid md:grid-cols-2 gap-8 items-center py-8">
         <div className="order-2 md:order-1">
