@@ -31,7 +31,7 @@ const Header = () => {
           <NavLink to="/" className={navLinkCls} end>
             Beranda
           </NavLink>
-          <NavLink to="/direktori" className={navLinkCls} end>
+          <NavLink to="/search" className={navLinkCls} end>
             Telusuri
           </NavLink>
           <NavLink to="/tentang" className={navLinkCls} end>
@@ -53,12 +53,15 @@ const Header = () => {
                 <DropdownMenuLabel>Menu</DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem onClick={() => navigate("/profile")}>Profil</DropdownMenuItem>
-                <DropdownMenuItem onClick={() => navigate("/direktori")}>Pesanan & Booking</DropdownMenuItem>
+                <DropdownMenuItem onClick={() => navigate("/profile")}>Pesanan & Booking</DropdownMenuItem>
                 {isMerchant && (
                   <DropdownMenuItem onClick={() => navigate("/dashboard/merchant")}>Dashboard Merchant</DropdownMenuItem>
                 )}
                 {isAdmin && (
                   <DropdownMenuItem onClick={() => navigate("/dashboard/admin")}>Admin</DropdownMenuItem>
+                )}
+                {!isMerchant && (
+                  <DropdownMenuItem onClick={() => navigate("/auth")}>Jadi Merchant</DropdownMenuItem>
                 )}
                 <DropdownMenuSeparator />
                 <DropdownMenuItem onClick={() => signOut()}>Keluar</DropdownMenuItem>

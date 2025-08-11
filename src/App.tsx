@@ -2,10 +2,10 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
-import Directory from "./pages/Directory";
+// import Directory from "./pages/Directory";
 import MerchantDetail from "./pages/MerchantDetail";
 import Booking from "./pages/Booking";
 import Chat from "./pages/Chat";
@@ -37,7 +37,7 @@ const App = () => (
           <Header />
           <Routes>
             <Route path="/" element={<Index />} />
-            <Route path="/direktori" element={<Directory />} />
+            <Route path="/direktori" element={<Navigate to="/search" replace />} />
             <Route path="/tentang" element={<About />} />
             <Route path="/auth" element={<Auth />} />
             <Route path="/search" element={<Search />} />

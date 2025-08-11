@@ -27,7 +27,7 @@ const Index = () => {
   }, []);
 
   const onSearch = () => {
-    navigate(`/direktori?q=${encodeURIComponent(query)}`);
+    navigate(`/search?q=${encodeURIComponent(query)}`);
   };
   return (
     <main className="min-h-screen bg-background">
@@ -59,11 +59,6 @@ const Index = () => {
             <div className="flex items-center gap-2"><Scissors className="opacity-80" /> Grooming</div>
             <div className="flex items-center gap-2"><Stethoscope className="opacity-80" /> Klinik Hewan</div>
           </div>
-          <div className="mt-6">
-            <a href="/dashboard/merchant">
-              <Button variant="outline">Jadi Merchant</Button>
-            </a>
-          </div>
         </div>
         <div className="order-1 md:order-2 relative">
           <img
@@ -80,7 +75,7 @@ const Index = () => {
         <h2 className="text-xl font-semibold mb-3">Kategori Populer</h2>
         <div className="flex flex-wrap gap-2">
           {categories.map((c)=> (
-            <Button key={c} variant="outline" size="sm" onClick={()=>navigate(`/direktori?q=${encodeURIComponent(c)}`)} className="hover-scale">{c}</Button>
+            <Button key={c} variant="outline" size="sm" onClick={()=>navigate(`/search?q=${encodeURIComponent(c)}`)} className="hover-scale">{c}</Button>
           ))}
           {categories.length===0 && <div className="text-sm text-muted-foreground">Kategori akan tampil di sini.</div>}
         </div>
@@ -89,7 +84,7 @@ const Index = () => {
       <section className="container py-6">
         <div className="flex items-center justify-between mb-3">
           <h2 className="text-xl font-semibold">Toko/Klinik Terpopuler</h2>
-          <Button variant="ghost" onClick={()=>navigate('/direktori')}>Lihat semua</Button>
+          <Button variant="ghost" onClick={()=>navigate('/search')}>Lihat semua</Button>
         </div>
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {topMerchants.map((m)=> (
@@ -110,7 +105,7 @@ const Index = () => {
               <div className="font-medium truncate">{p.name}</div>
               <div className="text-sm text-muted-foreground">Mulai Rp {Number(p.price).toLocaleString()}</div>
               <div className="mt-2">
-                <Button variant="outline" size="sm" onClick={()=>navigate('/direktori')}>Lihat</Button>
+                <Button variant="outline" size="sm" onClick={()=>navigate('/search')}>Lihat</Button>
               </div>
             </div>
           ))}
