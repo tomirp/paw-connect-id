@@ -6,6 +6,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import MerchantCard from "@/components/MerchantCard";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card } from "@/components/ui/card";
+import { Skeleton } from "@/components/ui/skeleton";
+interface Merchant { id: string; name: string; city: string; category: string; description: string; }
 interface Merchant { id: string; name: string; city: string; category: string; description: string; }
 interface Product { id: string; name: string; price: number; image_url?: string | null }
 interface Service { id: string; name: string; price: number; duration_minutes?: number | null }
@@ -51,9 +53,9 @@ const Search = () => {
           <Select onValueChange={setCategory}>
             <SelectTrigger><SelectValue placeholder="Kategori" /></SelectTrigger>
             <SelectContent>
-              <SelectItem value="Petshop">Petshop</SelectItem>
-              <SelectItem value="Grooming">Grooming</SelectItem>
-              <SelectItem value="Klinik">Klinik</SelectItem>
+              <SelectItem value="petshop">Petshop</SelectItem>
+              <SelectItem value="grooming">Grooming</SelectItem>
+              <SelectItem value="vet">Klinik Hewan</SelectItem>
             </SelectContent>
           </Select>
           <Select onValueChange={setCity}>
@@ -94,7 +96,16 @@ const Search = () => {
                   }}
                 />
               ))}
-              {results.length===0 && <div className="text-sm text-muted-foreground">Tidak ada hasil. Coba ubah filter.</div>}
+              {loading && results.length===0 && Array.from({length:6}).map((_,i)=> (
+                <div key={`m-skel-${i}`} className="rounded-md border overflow-hidden">
+                  <Skeleton className="h-40 w-full" />
+                  <div className="p-4 space-y-2">
+                    <Skeleton className="h-4 w-3/4" />
+                    <Skeleton className="h-3 w-1/2" />
+                  </div>
+                </div>
+              ))}
+              {!loading && results.length===0 && <div className="text-sm text-muted-foreground">Tidak ada hasil. Coba ubah filter.</div>}
             </div>
           </TabsContent>
 
@@ -106,7 +117,16 @@ const Search = () => {
                   <div className="text-sm text-muted-foreground">Mulai Rp {Number((p as any).price ?? 0).toLocaleString()}</div>
                 </Card>
               ))}
-              {productResults.length===0 && <div className="text-sm text-muted-foreground">Tidak ada produk ditemukan.</div>}
+              {loading && productResults.length===0 && Array.from({length:6}).map((_,i)=> (
+                <Card key={`p-skel-${i}`} className="p-4">
+                  <Skeleton className="h-24 w-full rounded-md" />
+                  <div className="mt-3 space-y-2">
+                    <Skeleton className="h-4 w-3/4" />
+                    <Skeleton className="h-3 w-1/2" />
+                  </div>
+                </Card>
+              ))}
+              {!loading && productResults.length===0 && <div className="text-sm text-muted-foreground">Tidak ada produk ditemukan.</div>}
             </div>
           </TabsContent>
 
@@ -118,7 +138,16 @@ const Search = () => {
                   <div className="text-sm text-muted-foreground">Mulai Rp {Number((s as any).price ?? 0).toLocaleString()} • {(s as any).duration_minutes ?? 0} menit</div>
                 </Card>
               ))}
-              {serviceResults.length===0 && <div className="text-sm text-muted-foreground">Tidak ada layanan ditemukan.</div>}
+              {loading && serviceResults.length===0 && Array.from({length:6}).map((_,i)=> (
+                <Card key={`s-skel-${i}`} className="p-4">
+                  <Skeleton className="h-24 w-full rounded-md" />
+                  <div className="mt-3 space-y-2">
+                    <Skeleton className="h-4 w-3/4" />
+                    <Skeleton className="h-3 w-1/2" />
+                  </div>
+                </Card>
+              ))}
+              {!loading && serviceResults.length===0 && <div className="text-sm text-muted-foreground">Tidak ada layanan ditemukan.</div>}
             </div>
           </TabsContent>
         </Tabs>

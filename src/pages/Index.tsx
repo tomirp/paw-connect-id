@@ -7,21 +7,33 @@ import SEO from "@/components/SEO";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import MerchantCard from "@/components/MerchantCard";
+import { Skeleton } from "@/components/ui/skeleton";
 const Index = () => {
   const navigate = useNavigate();
   const [query, setQuery] = useState("");
   const [categories, setCategories] = useState<string[]>([]);
   const [topMerchants, setTopMerchants] = useState<any[]>([]);
   const [products, setProducts] = useState<{id:string; name:string; price:number}[]>([]);
+  const [loading, setLoading] = useState(true);
+  const demoProducts = [
+    { id: 'demo-1', name: 'Makanan Kucing Tuna 1kg', price: 120000 },
+    { id: 'demo-2', name: 'Shampoo Anjing Premium', price: 75000 },
+    { id: 'demo-3', name: 'Pasir Kucing Wangi 10L', price: 95000 },
+  ];
 
   useEffect(() => {
     const load = async () => {
-      const { data: cat } = await supabase.from("categories").select("name").limit(6);
-      setCategories((cat ?? []).map(c=>c.name));
-      const { data: ms } = await supabase.from("merchants").select("id,name,city,category,description").limit(6);
-      setTopMerchants(ms ?? []);
-      const { data: ps } = await supabase.from("products").select("id,name,price").limit(6);
-      setProducts(ps ?? []);
+      try {
+        setLoading(true);
+        const { data: cat } = await supabase.from("categories").select("name").limit(6);
+        setCategories((cat ?? []).map(c=>c.name));
+        const { data: ms } = await supabase.from("merchants").select("id,name,city,category,description").limit(6);
+        setTopMerchants(ms ?? []);
+        const { data: ps } = await supabase.from("products").select("id,name,price").limit(6);
+        setProducts(ps ?? []);
+      } finally {
+        setLoading(false);
+      }
     };
     load();
   }, []);
@@ -77,7 +89,10 @@ const Index = () => {
           {categories.map((c)=> (
             <Button key={c} variant="outline" size="sm" onClick={()=>navigate(`/search?q=${encodeURIComponent(c)}`)} className="hover-scale">{c}</Button>
           ))}
-          {categories.length===0 && <div className="text-sm text-muted-foreground">Kategori akan tampil di sini.</div>}
+          {loading && categories.length===0 && Array.from({length:6}).map((_,i)=> (
+            <Skeleton key={`cat-skel-${i}`} className="h-8 w-24 rounded-full" />
+          ))}
+          {!loading && categories.length===0 && <div className="text-sm text-muted-foreground">Kategori akan tampil di sini.</div>}
         </div>
       </section>
 
@@ -90,7 +105,16 @@ const Index = () => {
           {topMerchants.map((m)=> (
             <MerchantCard key={m.id} merchant={{ id: m.id, name: m.name, category: (m.category as any), city: (m.city as any), rating: 4.6, priceRange: "Rp20k - Rp200k", distanceKm: 1.2, images: [], description: m.description ?? '', services: [], hours: '', approved: true }} />
           ))}
-          {topMerchants.length===0 && <div className="text-sm text-muted-foreground">Belum ada data merchant.</div>}
+          {loading && topMerchants.length===0 && Array.from({length:6}).map((_,i)=> (
+            <div key={`m-skel-${i}`} className="rounded-md border overflow-hidden">
+              <Skeleton className="h-40 w-full" />
+              <div className="p-4 space-y-2">
+                <Skeleton className="h-4 w-3/4" />
+                <Skeleton className="h-3 w-1/2" />
+              </div>
+            </div>
+          ))}
+          {!loading && topMerchants.length===0 && <div className="text-sm text-muted-foreground">Belum ada data merchant.</div>}
         </div>
       </section>
 
@@ -109,7 +133,24 @@ const Index = () => {
               </div>
             </div>
           ))}
-          {products.length===0 && <div className="text-sm text-muted-foreground">Rekomendasi produk akan tampil di sini.</div>}
+          {loading && products.length===0 && Array.from({length:6}).map((_,i)=> (
+            <div key={`p-skel-${i}`} className="border rounded-md p-4">
+              <Skeleton className="h-32 w-full rounded-md" />
+              <div className="mt-3 space-y-2">
+                <Skeleton className="h-4 w-3/4" />
+                <Skeleton className="h-3 w-1/2" />
+              </div>
+            </div>
+          ))}
+          {!loading && products.length===0 && demoProducts.map((p)=> (
+            <div key={p.id} className="border rounded-md p-4">
+              <div className="font-medium truncate">{p.name}</div>
+              <div className="text-sm text-muted-foreground">Mulai Rp {Number(p.price).toLocaleString()}</div>
+              <div className="mt-2">
+                <Button variant="outline" size="sm" onClick={()=>navigate('/search')}>Lihat</Button>
+              </div>
+            </div>
+          ))}
         </div>
       </section>
     </main>
